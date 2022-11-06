@@ -28,7 +28,16 @@ const exampleMovies = require("./movies");
       "James and the Giant Peach",
     ];
  */
-function getAllMovieTitles() {}
+function getAllMovieTitles(movies) {
+  //define & return an empty array if conditions arent met
+  //set up your Bucket/Accumulator on 34
+  let titleMovies = [];
+  for (let i = 0; i < movies.length; i++) {
+    //condition is to return all the movie titles
+    titleMovies.push(movies[i].title);
+  } // now return outside for loop the condition met
+  return titleMovies;
+}
 
 /**
  * getHighestMetascore()
@@ -41,7 +50,26 @@ function getAllMovieTitles() {}
  *  getHighestMetascore(movies);
  *  //> 96
  */
-function getHighestMetascore() {}
+function getHighestMetascore(movies) {
+  //accumulator = bucket that collects our highest 'metascore'
+  let topScore = 0;
+
+  //make a guard clause the bouncer outside your loop in the function
+  if (movies.length) {
+    // if there are multiple objects in the array of movies -->
+
+    //I must return the datatype as a Number --> but must reference the first or 0 index
+    topScore = Number(movies[0].metascore);
+  }
+  // create your loop now to gather the indexes in the accumulator
+  for (let i = 1; i < movies.length; i++) {
+    //encapsulate the condition and convert datatype again.
+    if (Number(movies[i].metascore) > topScore) {
+      topScore = Number(movies[i].metascore);
+    }
+  }
+  return topScore;
+}
 
 /**
  * getAverageIMDBRating()
@@ -54,7 +82,22 @@ function getHighestMetascore() {}
  *  getAverageIMDBRating(movies);
  *  //> 7.76
  */
-function getAverageIMDBRating() {}
+function getAverageIMDBRating(movies) {
+  //set the bucket up
+  let avgIMDBRating = 0;
+
+  // loop it up
+  for (let i = 0; i < movies.length; i++) {
+    // accumulate into that bucket by redefining += to a Number datatylp
+    avgIMDBRating += Number(movies[i].imdbRating);
+  }
+  // where is my Bouncer?? to check it the ratings are present?
+  if (avgIMDBRating > 0) {
+    // divide entire length of array to get the average
+    avgIMDBRating /= movies.length;
+  }
+  return avgIMDBRating;
+}
 
 /**
  * countByRating()
@@ -67,7 +110,25 @@ function getAverageIMDBRating() {}
  *  countByRating(movies);
  *  //> { G: 3, PG: 7 }
  */
-function countByRating() {}
+function countByRating(movies) {
+  //set up accumulator pattern
+  let newObject = {};
+
+  // loop through to gather ratings count
+  for (let i = 0; i < movies.length; i++) {
+    //!set loop condition to include keys according to 107 **
+    let loKey = movies[i].rated;
+    // guard clause/Bouncer
+    if (newObject[loKey]) {
+      // Accumulate! to gather starting at first iteration of found property to compare
+      newObject[loKey] += 1;
+    } else {
+      // collect everything else here in this condition -- the difference is in operands
+      newObject[loKey] = 1;
+    }
+  } // return final object outside loop
+  return newObject;
+}
 
 /**
  * findById()
@@ -83,7 +144,20 @@ function countByRating() {}
       // Toy Story 4
     };
  */
-function findById() {}
+function findById(movies, id) {
+  // set up guard clause first since we are returning null if 'No Movies' with strict equality
+  if (movies.length === 0) {
+    return null;
+  }
+  //loop it up
+  for (i = 0; i < movies.length; i++) {
+    // set new conditions to find if the id's equal -- using loop from 152 ---> it is dynamically changing to check the values
+    if (movies[i].imdbID === id) {
+      return movies[i];
+    }
+  }
+  return null; // if the 'movie' index cannot be found
+}
 
 /**
  * filterByGenre()
@@ -105,7 +179,26 @@ function findById() {}
  *  filterByGenre(movies, "Horror")
  *  //> []
  */
-function filterByGenre() {}
+function filterByGenre(movies, genre) {
+  //set up accumulation pattern
+  let filteredGenre = []; // define an empty array to return or be a bucket for collection
+
+  //set up your Bouncer/Guard Clause if length of movies is = to 0
+  if (movies.length === 0) {
+    return filteredGenre; // resurgance of accumulator pattern
+  }
+  //now define your loop
+  for (let i = 0; i < movies.length; i++) {
+    // we must format the output which will be the genres into new key
+    let formatGenre = movies[i].genre.toLowerCase();
+    if (formatGenre.includes(genre.toLowerCase())) {
+      // push new values into new array
+      filteredGenre.push(movies[i]);
+      console.log(filteredGenre);
+    }
+  } //bring back my array
+  return filteredGenre;
+}
 
 /**
  * getAllMoviesReleasedAtOrBeforeYear()
@@ -129,7 +222,17 @@ function filterByGenre() {}
       }
     ];
  */
-function getAllMoviesReleasedAtOrBeforeYear() {}
+function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
+  let releaseYear = []; // define empty array for collection
+  //set up your loop -- use a for of loop because its way easier for these parameters since its less than or equal to.
+  for (movies of movies) {
+    //lets check if the release year matched the given year, slice off the rest of the string and convert it to a Number
+    if (Number(movies.released.slice(-4)) <= year) {
+      releaseYear.push(movies);
+    }
+  }
+  return releaseYear;
+}
 
 /**
  * getBiggestBoxOfficeMovie()
@@ -142,7 +245,30 @@ function getAllMoviesReleasedAtOrBeforeYear() {}
  *  getBiggestBoxOfficeMovie(movies);
  *  //> "Incredibles 2"
  */
-function getBiggestBoxOfficeMovie() {}
+function getBiggestBoxOfficeMovie(movies) {
+  //!set a new variable that will be the highest box office movie as a number
+  let bigBox = 0;
+  //set a new movie title variable equal to a string
+  let bigMoneyMovie = "";
+  //set up guard clause if 'no movies'
+  if (!movies.length) {
+    //the conditiom should return null according to instruction
+    return null;
+  }
+  //now loop through what you your movies array one last time.
+  for (movies of movies) {
+    // we have to take the boxOffice value and replace the money sign and commas --->  then convert that new string to a Number
+    let boxNumber = Number(movies["boxOffice"].replace(/[$,]/g, ""));
+    // if the index from loop is higher than the current highest box office set up a guard clause
+    if (boxNumber > bigBox) {
+      //reassign that value
+      bigBox = boxNumber;
+      // assign the highest movie title to it now
+      bigMoneyMovie = movies["title"];
+    }
+  } // now return the highest box office movie titles
+  return bigMoneyMovie;
+}
 
 // Do not change anything below this line.
 module.exports = {
