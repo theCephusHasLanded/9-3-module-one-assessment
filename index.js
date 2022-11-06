@@ -30,10 +30,11 @@ const exampleMovies = require("./movies");
  */
 function getAllMovieTitles(movies) {
   //define & return an empty array if conditions arent met
-  //set up your Bucket/Accumulator on 34
+  //set up your Bucket/Accumulator
   let titleMovies = [];
+  // use a traditional for loop to loop through array of 'movies' objects
   for (let i = 0; i < movies.length; i++) {
-    //condition is to return all the movie titles
+    //condition is to return all the movie titles -- push them into new array
     titleMovies.push(movies[i].title);
   } // now return outside for loop the condition met
   return titleMovies;
@@ -54,17 +55,17 @@ function getHighestMetascore(movies) {
   //accumulator = bucket that collects our highest 'metascore'
   let topScore = 0;
 
-  //make a guard clause the bouncer outside your loop in the function
+  //make a guard clause "the bouncer" outside your loop in the function
   if (movies.length) {
     // if there are multiple objects in the array of movies -->
-
-    //I must return the datatype as a Number --> but must reference the first or 0 index
+    // must return the datatype as a Number --> but must reference the first or 0 index to compare
     topScore = Number(movies[0].metascore);
   }
   // create your loop now to gather the indexes in the accumulator
   for (let i = 1; i < movies.length; i++) {
-    //encapsulate the condition and convert datatype again.
+    //encapsulate the condition and convert datatype again
     if (Number(movies[i].metascore) > topScore) {
+      // set your condition to represent the new accumulator to the index of metascore as a Number
       topScore = Number(movies[i].metascore);
     }
   }
@@ -114,17 +115,18 @@ function countByRating(movies) {
   //set up accumulator pattern
   let newObject = {};
 
-  // loop through to gather ratings count
+  // loop through 'movies' array 
   for (let i = 0; i < movies.length; i++) {
-    //!set loop condition to include keys according to 107 **
-    let loKey = movies[i].rated;
-    // guard clause/Bouncer
-    if (newObject[loKey]) {
+    //!set loop condition to include keys according to instruction**
+    // gather up the rating count in this key below
+    let ratedKey = movies[i].rated;
+    // setup the guard clause / Bouncer
+    if (newObject[ratedKey]) {
       // Accumulate! to gather starting at first iteration of found property to compare
-      newObject[loKey] += 1;
+      newObject[ratedKey] += 1;
     } else {
       // collect everything else here in this condition -- the difference is in operands
-      newObject[loKey] = 1;
+      newObject[ratedKey] = 1;
     }
   } // return final object outside loop
   return newObject;
@@ -151,12 +153,13 @@ function findById(movies, id) {
   }
   //loop it up
   for (i = 0; i < movies.length; i++) {
-    // set new conditions to find if the id's equal -- using loop from 152 ---> it is dynamically changing to check the values
+    // set new conditions to find if the id's equal -- using loop ---> it is dynamically changing to check the values
     if (movies[i].imdbID === id) {
+      //retrun the random index
       return movies[i];
     }
-  }
-  return null; // if the 'movie' index cannot be found
+  } 
+  return null; // otherwise if the 'movie' index cannot be found
 }
 
 /**
@@ -189,8 +192,9 @@ function filterByGenre(movies, genre) {
   }
   //now define your loop
   for (let i = 0; i < movies.length; i++) {
-    // we must format the output which will be the genres into new key
+    // we must format the output which will be the genres into new key -- must be case-sensitive
     let formatGenre = movies[i].genre.toLowerCase();
+    // if the condition includes the genre and is case sensitive
     if (formatGenre.includes(genre.toLowerCase())) {
       // push new values into new array
       filteredGenre.push(movies[i]);
